@@ -1,5 +1,5 @@
 /**
- * Wedding RSVP receiver for Adithya & Piumi.
+ * Wedding RSVP receiver for Kasun & Sanduni.
  * Paste into Extensions > Apps Script of the RSVP spreadsheet, then Deploy > New deployment > Web app.
  */
 

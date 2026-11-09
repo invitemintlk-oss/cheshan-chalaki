@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link2, Copy, Check, MessageSquareText } from 'lucide-react';
 import { PREFIXES, encodeGuest } from './guestLink';
 
-const COUPLE_SIGNATURE = 'ආදිත්‍ය සහ පියුමි';
+const COUPLE_SIGNATURE = 'කසුන් සහ සඳුනි';
 
 const buildMessage = (guestName: string, prefix: string, url: string) =>
   `ආදරණීය ${guestName} ${prefix} ❤️
