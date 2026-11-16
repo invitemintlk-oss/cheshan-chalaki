@@ -1,72 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, MapPin, Calendar, Clock, ChevronDown, Send, Heart } from "lucide-react";
-import { PREFIXES, decodeGuest, guestGreeting } from "./guestLink";
-
-const INVITATION = {
-  couple: {
-    bride: "සඳුනි",
-    groom: "කසුන්",
-    brideFull: "සඳුනි හංසිකා",
-    groomFull: "කසුන් තාරක",
-  },
-  parents: {
-    brideFather: "ඩබ්ලිව්.එම්. ජයසේකර මහතා",
-    brideMother: "කේ.පී. නිලන්ති කුමාරි මහත්මිය",
-    groomFather: "එච්.ඒ. ගුණවර්ධන මහතා",
-    groomMother: "ආර්.එම්. දමයන්ති පෙරේරා මහත්මිය",
-  },
-  date: {
-    displayNumeric: "18 . 02 . 2027",
-    displayLong: "වර්ෂ 2027 ක් වූ පෙබරවාරි මස 18 වන දින",
-    countdownTarget: "2027-02-18T10:15:00+05:30",
-    countdownCaption: "2027 පෙබරවාරි 18 බ්‍රහස්පතින්දා",
-  },
-  time: {
-    ceremonyStart: "පෙ.ව. 10:15",
-    ceremonyEnd: "ප.ව. 4:00",
-    registration: "පෙ.ව. 11:30",
-    welcome: "පෙ.ව. 9:45",
-  },
-  timeline: [
-    {
-      time: "පෙ.ව. 9:45",
-      title: "පිළිගැනීම",
-      description: "අමුත්තන් සාදරයෙන් පිළිගැනීම",
-      icon: "/icon_start_clear.png",
-    },
-    {
-      time: "පෙ.ව. 10:15",
-      title: "පෝරුව චාරිත්‍ර",
-      description: "සුබ මොහොතින් පෝරුවට නැගීම",
-      icon: "/icon_poruwa_clear.png",
-    },
-    {
-      time: "ප.ව. 12:30",
-      title: "දිවා භෝජනය",
-      description: "ආදරයෙන් සැකසූ මංගල භෝජන සංග්‍රහය",
-      icon: "/icon_lunch_clear.png",
-    },
-    {
-      time: "ප.ව. 2:30",
-      title: "මංගල නර්තනය",
-      description: "සංගීතය, නර්තනය සහ සතුට",
-      icon: "/icon_dance_clear.png",
-    },
-  ],
-  venue: {
-    name: "Waters Edge",
-    city: "Battaramulla",
-    nameSinhala: "වෝටර්ස් එජ්",
-    addressSinhala: "අංක 316, ඊතුල් කෝට්ටේ පාර, බත්තරමුල්ල.",
-    image: "/Gemini_Generated_Image_vhxsegvhxsegvhxs.jpg",
-    mapQuery: "Waters Edge, 316 Ethul Kotte Road, Battaramulla",
-    googleMapsLink: "https://www.google.com/maps/search/?api=1&query=Waters+Edge+Battaramulla",
-  },
-
-} as const;
+import { PREFIXES, decodeGuest, guestGreeting, parseGuestPath } from "./guestLink";
+import { INVITATION } from "./invitation";
 
 const MAX_RSVP_GUESTS = 10;
+const INTRO_VIDEO_SPEED = 1.5;
 
 const backgroundMusic = "/ssstik.io_1787238853044.mp3";
 const googleScriptUrl =
@@ -377,9 +316,12 @@ export default function WeddingInvitation() {
   const searchParams = new URLSearchParams(window.location.search);
   const guestCode = searchParams.get("g");
   const decodedGuest = guestCode ? decodeGuest(guestCode) : null;
-  const guestName = decodedGuest
-    ? guestGreeting(decodedGuest.name, decodedGuest.prefix)
-    : searchParams.get("to");
+  const pathGuest = parseGuestPath(window.location.pathname, window.location.search);
+  const guestName = pathGuest
+    ? pathGuest.displayName
+    : decodedGuest
+      ? guestGreeting(decodedGuest.name, decodedGuest.prefix)
+      : searchParams.get("to");
 
   const [rsvpForm, setRsvpForm] = useState({
     name: "",
@@ -507,10 +449,14 @@ export default function WeddingInvitation() {
               loop={!hasStarted}
               className={`w-full h-full object-cover transition-all duration-[2000ms] ease-out ${!hasStarted ? "blur-md scale-105 opacity-80" : "blur-0 scale-100 opacity-100"
                 }`}
+              onLoadedMetadata={(e) => {
+                e.currentTarget.defaultPlaybackRate = INTRO_VIDEO_SPEED;
+                e.currentTarget.playbackRate = INTRO_VIDEO_SPEED;
+              }}
               onEnded={() => setIsOpened(true)}
               onError={(e) => { console.error("Video error:", e); setIsOpened(true); }}
             >
-              <source src="/gemini_generated_video_f7ff1ba8.mp4" type="video/mp4" />
+              <source src="/gemini_generated_video_555d71fb.mp4" type="video/mp4" />
             </video>
 
             {!hasStarted && (
@@ -568,6 +514,7 @@ export default function WeddingInvitation() {
                       if (introVideoRef.current) {
                         introVideoRef.current.loop = false;
                         introVideoRef.current.currentTime = 0;
+                        introVideoRef.current.playbackRate = INTRO_VIDEO_SPEED;
                         introVideoRef.current.play().catch((err) => console.log(err));
                       }
 
@@ -732,8 +679,8 @@ export default function WeddingInvitation() {
                       className="relative w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-[6px] border-[#d4af37]/30 bg-[#fcf8ee] shadow-[0_0_24px_rgba(212,175,55,0.3)]"
                     >
                       <img
-                        src="/ChatGPT%20Image%20Sep%2023,%202026,%2006_17_48%20PM.png"
-                        alt="Couple Cartoon"
+                        src="/couple-portrait.jpg"
+                        alt="Chalaki and Cheshan"
                         className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
                       />
                     </motion.div>
@@ -797,7 +744,14 @@ export default function WeddingInvitation() {
 
                         <div key="invite" className="mt-8 w-full rounded-2xl border border-dashed border-[#b98a2f]/45 bg-[#b98a2f]/[0.06] px-5 py-6 md:px-8 flex flex-col items-center">
                           <p className="text-[#6b5a40]">අතිනත ගැනීමේ ප්‍රීති නිමිත්තෙන්</p>
-                          {decodedGuest ? (
+                          {pathGuest ? (
+                            <>
+                              <p className="mt-4 text-[#8a7a60]">ආදරණීය</p>
+                              <p className="mt-1 text-2xl md:text-3xl font-bold text-[#8c6420] break-words">
+                                {pathGuest.displayName}
+                              </p>
+                            </>
+                          ) : decodedGuest ? (
                             <>
                               <p className="mt-4 text-[#8a7a60]">ආදරණීය</p>
                               <p className="mt-1 text-2xl md:text-3xl font-bold text-[#8c6420]">
@@ -854,7 +808,7 @@ export default function WeddingInvitation() {
                             icon: Clock,
                             latin: "Time",
                             label: "වේලාව",
-                            value: `පෝරුව චාරිත්‍ර ${INVITATION.time.ceremonyStart}ට`,
+                            value: `පෝරුවේ චාරිත්‍ර ${INVITATION.time.ceremonyStart}ට`,
                           },
                           {
                             icon: MapPin,

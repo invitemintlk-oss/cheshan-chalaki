@@ -1,5 +1,5 @@
 /**
- * Wedding RSVP receiver for Kasun & Sanduni.
+ * Wedding RSVP receiver for Cheshan & Chalaki.
  * Paste into Extensions > Apps Script of the RSVP spreadsheet, then Deploy > New deployment > Web app.
  */
 

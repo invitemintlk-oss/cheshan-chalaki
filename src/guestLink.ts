@@ -54,3 +54,44 @@ export const decodeGuest = (code: string): { name: string; prefix: string } | nu
 };
 
 export const guestGreeting = (name: string, prefix: string) => `ආදරණීය ${name} ${prefix}`;
+
+// Readable guest links: /{guestName}?p={prefixKey}  ("Dear" adds no ?p=)
+
+export const GUEST_PREFIXES = [
+  { key: 'mr', label: 'Mr.' },
+  { key: 'mrs', label: 'Mrs.' },
+  { key: 'miss', label: 'Miss' },
+  { key: 'mr-mrs', label: 'Mr. & Mrs.' },
+  { key: 'family', label: 'Family' },
+  { key: 'dear', label: 'Dear' },
+] as const;
+
+export type GuestPrefixKey = (typeof GUEST_PREFIXES)[number]['key'];
+
+const isPrefixKey = (value: string | null): value is GuestPrefixKey =>
+  GUEST_PREFIXES.some((p) => p.key === value);
+
+// "Dear" is not part of the name: the greeting adds it, so the name stays bare.
+export const guestDisplayName = (name: string, key: GuestPrefixKey) => {
+  if (key === 'dear') return name;
+  if (key === 'family') return `${name} and Family`;
+  return `${GUEST_PREFIXES.find((p) => p.key === key)!.label} ${name}`;
+};
+
+export const buildGuestUrl = (origin: string, name: string, key: GuestPrefixKey) =>
+  `${origin}/${encodeURIComponent(name)}${key === 'dear' ? '' : `?p=${key}`}`;
+
+export const parseGuestPath = (pathname: string, search: string) => {
+  const segment = pathname.replace(/^\/+|\/+$/g, '');
+  if (!segment || segment.includes('/') || segment === 'admin') return null;
+  let name: string;
+  try {
+    name = decodeURIComponent(segment).replace(/\s+/g, ' ').trim();
+  } catch {
+    return null;
+  }
+  if (!name) return null;
+  const p = new URLSearchParams(search).get('p');
+  const key: GuestPrefixKey = isPrefixKey(p) ? p : 'dear';
+  return { name, key, displayName: guestDisplayName(name, key) };
+};

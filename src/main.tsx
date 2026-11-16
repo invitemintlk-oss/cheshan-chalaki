@@ -4,11 +4,10 @@ import App from './App';
 import Admin from './Admin';
 import './index.css';
 
-const path = window.location.pathname;
+const path = window.location.pathname.replace(/\/+$/, '');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {path === '/admin' ? <Admin /> : <App />}
   </StrictMode>,
 );
-
