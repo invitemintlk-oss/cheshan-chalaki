@@ -44,7 +44,7 @@ export default function Admin() {
       url,
       message: buildMessage(displayName, url),
       greeting: `${GREETING_WORD} ${displayName} ❤️`,
-      inviteLine: `අතිනත ගැනීමේ ප්‍රීති නිමිත්තෙන් ${GREETING_WORD} ${displayName} කෙරෙන සුහද ඇරයුමයි මේ.`,
+      inviteLine: `අතිනත ගැනීමේ ප්‍රීතිය නිමිත්තෙන් ${GREETING_WORD} ${displayName} කෙරෙන සුහද ඇරයුමයි මේ.`,
     });
   };
 

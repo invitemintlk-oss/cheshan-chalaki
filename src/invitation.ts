@@ -35,6 +35,16 @@ export const INVITATION = {
       description: "සුබ මොහොතින් විවාහ ලියාපදිංචිය",
       icon: "/icon_start_clear.png",
     },
+    {
+      time: "ප.ව. 12:30",
+      title: "දිවා භෝජනය",
+      description: "ආදරයෙන් සැකසූ මංගල භෝජන සංග්‍රහය",
+      icon: "/icon_lunch_clear.png",
+    },
+  ],
+  contacts: [
+    { name: "චෙශාන්", phone: "071 248 3393", tel: "+94712483393" },
+    { name: "චාලකි", phone: "071 524 4018", tel: "+94715244018" },
   ],
   venue: {
     name: "Grand Avalon",

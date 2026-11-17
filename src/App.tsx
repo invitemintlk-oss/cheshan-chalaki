@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, MapPin, Calendar, Clock, ChevronDown, Send, Heart } from "lucide-react";
+import { Sparkles, MapPin, Calendar, Clock, ChevronDown, Send, Heart, Phone } from "lucide-react";
 import { PREFIXES, decodeGuest, guestGreeting, parseGuestPath } from "./guestLink";
 import { INVITATION } from "./invitation";
 
@@ -456,7 +456,7 @@ export default function WeddingInvitation() {
               onEnded={() => setIsOpened(true)}
               onError={(e) => { console.error("Video error:", e); setIsOpened(true); }}
             >
-              <source src="/gemini_generated_video_555d71fb.mp4" type="video/mp4" />
+              <source src="/Wedding_invitation_video_creation_735afc65%20(online-video-cutter.com).mp4" type="video/mp4" />
             </video>
 
             {!hasStarted && (
@@ -743,7 +743,7 @@ export default function WeddingInvitation() {
                         </div>,
 
                         <div key="invite" className="mt-8 w-full rounded-2xl border border-dashed border-[#b98a2f]/45 bg-[#b98a2f]/[0.06] px-5 py-6 md:px-8 flex flex-col items-center">
-                          <p className="text-[#6b5a40]">අතිනත ගැනීමේ ප්‍රීති නිමිත්තෙන්</p>
+                          <p className="text-[#6b5a40]">අතිනත ගැනීමේ ප්‍රීතිය නිමිත්තෙන්</p>
                           {pathGuest ? (
                             <>
                               <p className="mt-4 text-[#8a7a60]">ආදරණීය</p>
@@ -1168,6 +1168,30 @@ export default function WeddingInvitation() {
                     {rsvpStatus === "sending" ? "යවමින්..." : "පිළිතුර යවන්න"}
                   </button>
                 </form>
+
+                <div className="relative z-10 mt-8 border-t border-[#b98a2f]/25 pt-6">
+                  <p className="text-center text-[0.95rem] font-semibold text-[#8c6420]">විමසීම් සඳහා</p>
+                  <p className="label-latin mt-1 text-center text-[0.62rem] uppercase tracking-[0.3em] text-[#b98a2f]/80">
+                    Contact Details
+                  </p>
+                  <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {INVITATION.contacts.map((contact) => (
+                      <a
+                        key={contact.tel}
+                        href={`tel:${contact.tel}`}
+                        className="flex items-center gap-3 rounded-2xl border border-[#b98a2f]/35 bg-white/60 px-4 py-3 transition-colors hover:bg-[#b98a2f]/10"
+                      >
+                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[#b98a2f] to-[#8c6420] text-[#fdf8ec]">
+                          <Phone className="h-4 w-4" />
+                        </span>
+                        <span className="flex flex-col text-left">
+                          <span className="font-bold text-[#8c6420]">{contact.name}</span>
+                          <span className="label-latin text-[0.95rem] tracking-wide text-[#5a4a33]">{contact.phone}</span>
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
                 </div>
               </motion.div>
             </section>
