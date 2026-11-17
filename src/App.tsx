@@ -5,7 +5,7 @@ import { PREFIXES, decodeGuest, guestGreeting, parseGuestPath } from "./guestLin
 import { INVITATION } from "./invitation";
 
 const MAX_RSVP_GUESTS = 10;
-const INTRO_VIDEO_SPEED = 1.5;
+const INTRO_VIDEO_SPEED = 1;
 
 const backgroundMusic = "/ssstik.io_1787238853044.mp3";
 const googleScriptUrl =
