@@ -3,7 +3,7 @@
  * Paste into Extensions > Apps Script of the RSVP spreadsheet, then Deploy > New deployment > Web app.
  */
 
-const SPREADSHEET_ID = '1TbyrQ5dKvYW0xJJH3AJBe9P4zhzMupstMf9i5HfhKrE';
+const SPREADSHEET_ID = '1MxbSlVEfZs1QApeSkXc_I09RKhp1awruN6WB4UdScQ4';
 const SHEET_NAME = 'RSVP';
 const TIME_ZONE = 'Asia/Colombo';
 

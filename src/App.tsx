@@ -9,7 +9,7 @@ const INTRO_VIDEO_SPEED = 1;
 
 const backgroundMusic = "/ssstik.io_1787238853044.mp3";
 const googleScriptUrl =
-  "https://script.google.com/macros/s/AKfycbyFKvYH0cioVJ33qlPhQ6F0S4MA5eDrXaKoq1cIs1Dym7Wrqkwt4SYAs16uqV7vHlcLgw/exec";
+  "https://script.google.com/macros/s/AKfycbyMKbuK42-vawoTdGwtd7EyJEiZN6Sx53t_N80TioeD9cqyE5-B13Nn4q3pJvXYhzDt/exec";
 
 const publicImagePath = (fileName: string) => `/images/${fileName.replaceAll(" ", "%20")}`;
 const preImagePath = (fileName: string) => `/pre/${fileName.replaceAll(" ", "%20")}`;
@@ -323,8 +323,11 @@ export default function WeddingInvitation() {
       ? guestGreeting(decodedGuest.name, decodedGuest.prefix)
       : searchParams.get("to");
 
+  // Name from the personal link made on /admin, so guests don't have to type it.
+  const rsvpPrefillName = pathGuest?.displayName ?? decodedGuest?.name ?? searchParams.get("to") ?? "";
+
   const [rsvpForm, setRsvpForm] = useState({
-    name: "",
+    name: rsvpPrefillName,
     attending: true,
     guestCount: 1,
     message: "",
@@ -371,7 +374,7 @@ export default function WeddingInvitation() {
       });
 
       setRsvpStatus("success");
-      setRsvpForm({ name: "", attending: true, guestCount: 1, message: "" });
+      setRsvpForm({ name: rsvpPrefillName, attending: true, guestCount: 1, message: "" });
     } catch {
       setRsvpStatus("error");
     }
